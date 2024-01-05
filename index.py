@@ -1,12 +1,8 @@
 import asyncio
 import base64
 import json
-import numpy
 import os
-import pygame
 import shutil
-import sounddevice
-import subprocess
 import websockets
 
 from deepgram import (
@@ -31,12 +27,6 @@ VOICE_ID			= "oWAxZDx7w5VEj9dCyTzz"
 
 # Set OpenAI API key
 aclient	= AsyncOpenAI(api_key=OPENAI_API_KEY)
-
-# Initialise pygame mixer
-pygame.mixer.init()
-
-def is_installed(lib_name):
-	return shutil.which(lib_name) is not None
 
 # Split text into chunks, ensuring to not break sentences
 async def text_chunker(chunks):
@@ -128,7 +118,7 @@ async def chat_completion(query):
 		messages=[{"role": "user", "content": query}],
 		temperature=1,
 		stream=True,
-		max_tokens=15
+		max_tokens=15	# Artificially limit number of tokens (for testing only)
 	)
 
 	async def text_iterator():
